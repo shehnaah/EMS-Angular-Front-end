@@ -1,0 +1,19 @@
+<div *ngIf="!editAdminStatus">
+    <div class="admin-img text-center mt-1">
+        <img width="100px" height="100px" [src]="url" alt="profile">
+     </div>
+     <div class="admin-update text-center mt-1">
+       <button (click)="editAdminbtnclick()" class="text-primary btn btn-link fs-5"> Edit Admin Details<i class="fa-solid fa-pen"></i></button>
+     </div>
+</div>
+<div *ngIf="editAdminStatus" class="text-center">
+    <h3>Edit Admin Details</h3>
+    <label>
+        <input (change)="getFile($event)" type="file" style="display: none;">
+        <img width="100px" height="100px" [src]="url" alt="profile" class="img-fluid rounded"/>
+    </label>
+    <input [(ngModel)]="admin.name" type="text" class="form-control mt-2" placeholder="Admin name" >
+    <input [(ngModel)]="admin.password" type="text" class="form-control mt-2" placeholder="Admin password">
+    <input (click)="cancel()" type="button" class="btn btn-primary mt-2 me-2" value="cancel">
+    <input (click)="update()" type="button" class="btn btn-warning mt-2" value="update">
+</div>

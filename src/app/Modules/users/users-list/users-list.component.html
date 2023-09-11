@@ -1,0 +1,80 @@
+<div class="d-flex border border-light">
+    <div style="width: 200px;height: 90vh;" class="sidebar bg-info p-3 d-flex flex-column">
+    <a routerLink="/home">HOME</a>  
+    <a routerLink="/users">USERS</a>  
+  </div>
+    <div class="dashboard p-3 w-100">
+   
+<div class="justify-content-center align-items-center mt-3">
+<div class="d-flex justify-content-between">
+    <h1>Users List</h1>
+    <a routerLink="add" class="btn btn-outline-warning text-dark">
+      <i class="fa-solid fa-user-plus"></i>Add
+    <!-- <button type="button" class="btn btn-success">New user</button> -->
+  </a>
+  
+</div> 
+<div class="d-flex mt-3 mb-3 align-items-right">
+ <input [(ngModel)]="searchKey" type="text" class="form-control w-25" placeholder="search by username">
+ <!-- sort -->
+ <div class="dropdown ms-2">
+  <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    sort
+  </button>
+  <ul class="dropdown-menu">
+    <li><button (click)="sortById()" class="dropdown-item text-dark">By id</button></li>
+    <li><button (click)="sortByName()" class="dropdown-item text-dark">By name</button></li>
+  </ul>
+</div>
+<!-- download -->
+<button (click)="generatePDF()" class="btn btn-success  ms-auto">Export</button>
+</div>
+     <table id="userTable" class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">User Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="(allUsers | search:searchKey:'name').length===0">
+            <p class="fw-bolder text-danger">User does not exist!!!</p>
+
+          </tr>
+          <tr *ngFor="let user of allUsers | search:searchKey: 'name' | paginate:{
+            itemsPerPage:tableSize,
+            currentPage:page,
+            totalItems:count
+          }" [hidden]="user.id==1">
+            <th scope="row">{{user.id}} </th>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td><span [ngClass]="user.active==='1'?'btn btn-success':'btn btn-danger'">{{user.active==="1"?"Active":"Inactive"}}</span></td>
+            <th><a routerLink="edit/{{user.id}}"><i class="fa-solid fa-pen text-success me-4 btn"></i></a>
+              <i (click)="deleteuser(user.id)" class="fa-solid fa-trash text-danger btn"></i></th>
+          </tr>
+          <!-- <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr> -->
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-center">
+        <pagination-controls previousLabel="Prev"
+        nextlabel="Next"
+        (pageChange)="onTableDataChange($event)">
+
+        </pagination-controls>
+      </div>
+    </div>
+</div></div>
